@@ -1,0 +1,97 @@
+	/*font*/
+
+	/*style*/
+	
+	/*position and size*/
+
+/*google font*/
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,600');
+
+html { 
+  background: url('../images/background.jpg') no-repeat center center fixed; 
+  background-size: cover;
+}
+p{
+	line-height: 150%;
+}
+
+
+.paperIntro{
+	text-align: right;
+	font-size: .8em;
+	line-height: 125%;
+	margin-bottom: 30px;
+}
+
+#intro{
+	/*font*/
+	font-family: 'Open Sans', sans-serif;
+
+	/*style*/
+	background-color: #fff;
+	box-shadow: 0px 0px 70px 3px rgba(0,0,0,1);
+
+	/*position and size*/
+	width: 600px;
+	height: 800px;
+	margin-top: 5%;
+	margin-left: auto;
+	margin-right: auto;
+	padding: 50px;
+}
+#intro h1{
+	font-weight: 600;
+	font-size: 2em;
+	text-align: center;
+	margin-bottom: 20px;
+}
+#intro button{
+	/*font*/
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1.3em;
+	color: #fff;
+	font-weight: 300;
+
+	/*style*/
+	outline: none;
+	border-radius: 5px;
+	border: none;
+	background-color: #2980B9;
+
+	/*position and size*/
+	margin-top: 70px;
+	margin-left: 250px;
+	padding-left: 15px;
+	padding-right: 15px;
+}
+#intro button:hover{
+	background-color: #3498DB;
+}
+#intro button:active{
+	background-color: #206591;
+}
+
+#timer{
+	/*font*/
+	text-align: center;
+    color: #F3FFE2;
+	font-family: 'Open Sans', sans-serif;
+    font-size: 1.3em;
+
+	/*style*/
+	display: none;
+	background-color: #1695A3;
+	box-shadow: 0px 0px 70px 3px rgba(0,0,0,1);
+	border-radius: 0px 0px 3px 4px;
+
+	/*position and size*/
+	margin-left: auto;
+    margin-right: auto;
+    width: 200px;
+    height: 40px;
+    padding-top: 10px;
+}
+
+#card{
+	display: none;
+}
