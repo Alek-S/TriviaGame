@@ -27,11 +27,11 @@
 		<h1>History Class Simulator</h1>
 		<p>Recreate the nostalgic childhood stress of a timed multiple choice examination. It's the public school testing simulator you never asked for!</p>
 		<br>
-		<p>When the game begins, you will be given ten multiple choice questions. Each question will have a time limit within which an answer must be submitted. When the test has been completed, your report card will be presented.</p>
-		<button>Start</button>
+		<p>When the game begins, you will be given ten multiple choice questions. Each question will have a time limit within which an answer must be submitted. When the test has been completed, your results will be presented.</p>
+		<button id="startBtn">Start</button>
 	</div>
 
-	<div id="timer">
+	<div id="timer" class="normal">
 		<p></p>
 	</div>
 
@@ -44,6 +44,13 @@
 			<p class="choice" id="2"></p>
 			<p class="choice" id="3"></p>
 		</div>
+	</div>
+
+	<div id="reportCard">
+		<h2>Results:</h2>
+		<div id="results">
+		</div>
+		<button id='retryBtn'>Retry</button>
 	</div>
 
 </body>

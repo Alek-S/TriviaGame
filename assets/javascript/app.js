@@ -1,10 +1,12 @@
-//==== GLOBAL VARIABLES ====
 
-//==== MAIN ====
 $(document).ready(function(){
-	// cache
-	$card = $('#card');
-	$question = $('#question');
+	
+	// Cache
+	var $card = $('#card');
+	var $question = $('#question');
+	var $timer = $('#timer');
+	var $reportCard = $("#reportCard");
+	var $results	= $("#results");
 
 	var questionList = {}; // use opentdb api to populate with history questions, see getQuestions()
 
@@ -18,6 +20,7 @@ $(document).ready(function(){
 		//methods
 		new: function(){
 			//clear
+			questionList = {};
 			this.results = [];
 			$('#question').empty();
 			$('.choice').empty();
@@ -26,13 +29,12 @@ $(document).ready(function(){
 			getQuestions(nextQuestion);
 
 			//show timer
-			$('#timer').slideDown(800); //timer started within nextQuestion()
-
-			//show question
-			// nextQuestion();
+			$timer.slideDown(800); //timer started within nextQuestion()
 		},
 		resetTimer: function(seconds) {
 			this.clearTimer(); 
+			$timer.removeClass()
+			$timer.addClass('normal')
 			$('#timer p').text(seconds); //timer text
 			this.interval = setInterval(countdown, 1000);
 		},
@@ -41,20 +43,46 @@ $(document).ready(function(){
 		},
 	};
 
-	//player clicks start
-	$('#intro button').on('click', function(){
+	//==== CLICK EVENTS ====
+
+	//player clicks start on intro screen
+	$('#startBtn').on('click', function(){
 		$('#intro').fadeOut(200);
 		game.new();
 	});	
 
+	//player picks an answer
+	$(".choice").on('click',function(){
+		var correctAnswer = questionList[ game.results.length ].correct_answer;
+		var playerAnswer= $(this).text();
 
+		if(playerAnswer === correctAnswer){
+			console.log("Correct");
+			game.results.push(true);
+			nextQuestion();
+		}else{
+			console.log("Incorrect");
+			game.results.push(false);
+			nextQuestion();
+		}
+	});
+
+	//player clicks retry button on the results screen
+	$('#retryBtn').on('click',function(){
+		$reportCard.hide();
+		$results.empty();
+		game.new()
+	});
 
 
 	//==== FUNCTIONS ====
 
-	function getQuestions(callback){ //get 10 history questions from opentdb api
-		var url = 'https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple'
+	function getQuestions(callback){ 
 
+		//get 10 history questions from opentdb api
+		var url = 'https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple'
+		console.log('API URL Request:', url)
+		
 		$.ajax({
 			url: url,
 			method: 'GET'
@@ -65,40 +93,45 @@ $(document).ready(function(){
 	}
 
 	function nextQuestion(){
-		var answerList = [];
-		var correctAnswer = questionList[game.currentQuestion()].correct_answer;
-		var correctPosition = Math.floor(Math.random() * 4); //where correct answer goes
+		if(game.results.length >= 10){
+			console.log('no more questions');
+			reportCard();
+		}
 
 		//hide
 		$card.hide();
 
-		//what question are we on - show on card header
-		$('h2').text('Question #' + (game.results.length + 1));
+		if(game.results.length < 10){
+			var answerList = [];
+			var correctAnswer = questionList[game.currentQuestion()].correct_answer;
+			var correctPosition = Math.floor(Math.random() * 4); //where correct answer goes
 
-		//populate next question
-		$question.text( questionList[game.currentQuestion()].question);
+			//what question are we on - show on card header
+			$('#card h2').text('Question #' + (game.results.length + 1));
 
-		//add answers to answerList, with correct at answerList[3]
-		for (var i = 0; i < 3; i++) {
-			answerList.push(questionList[game.currentQuestion()].incorrect_answers[i]);
+			//populate next question
+			$question.html( questionList[game.currentQuestion()].question);
+
+			//add answers to answerList, with correct at answerList[3]
+			for (var i = 0; i < 3; i++) {
+				answerList.push(questionList[game.currentQuestion()].incorrect_answers[i]);
+			}
+			answerList.splice( correctPosition ,0, correctAnswer);
+
+			//show choices
+			for (var i = 0; i < 4; i++) {
+				$("#" + i).html( answerList[i])
+			}
+
+			//add class to correct answer
+			$("#" + correctPosition).addClass("correct");
+			
+			//show
+			$('#card').slideDown();
+
+			//rest timer for question
+			game.resetTimer(15);
 		}
-		answerList.splice( correctPosition ,0, correctAnswer);
-		console.log(answerList);
-
-		//show choices
-		for (var i = 0; i < 4; i++) {
-			$("#" + i).text( answerList[i])
-		}
-
-		//add class to correct answer
-		$("#" + correctPosition).addClass("correct");
-		
-		//show
-		$('#card').slideDown();
-
-		//rest timer for question
-		game.resetTimer(15);
-
 	}
 
 	function countdown(){
@@ -109,10 +142,73 @@ $(document).ready(function(){
 		}
 		$('#timer p').text(remaining);
 
+		if(remaining == 11){
+			$timer.removeClass();
+			$timer.addClass('warning');
+		}
+		if(remaining == 6){
+			$timer.removeClass();
+			$timer.addClass('critical');
+		}
+
 		if(remaining <= 0){
 			console.log('times up'); //out of time
 			game.clearTimer();
+			game.results.push(false);
+			nextQuestion();
 		}
 	}
 
+	function reportCard(){
+		game.clearTimer();
+		$card.hide();
+		$timer.hide();
+
+		var correct = 0;
+		var $total = $("<div>").addClass('total')
+
+		for(var i = 0; i < game.results.length; i++){
+			var $questionDiv = $("<div>").addClass('q' + (i+1)).addClass('questionResult');
+
+			//build div for each question and if they answered correctly
+			$questionDiv.html('<strong>Question #' + (i+1) + ":</strong> " 
+				+  booleanToString( game.results[i] ) );
+
+			$results.append($questionDiv);
+
+			//track total correct/incorrect
+			if(game.results[i] === true){
+				correct++;
+			};
+		}
+
+		$total.html('<strong>Grade:</strong> ' + ((correct / game.results.length)*100) + '%');
+		$results.append($total);
+
+		//show reportcard 
+		$reportCard.slideDown();
+
+	}
+
+	//convert true/false to string of correct/incorrect
+	function booleanToString(boolean){
+		if(boolean === true){
+			return 'Correct';
+		}else{
+			return 'Incorrect';
+		}
+	}
 }); //.ready done
+
+
+
+
+
+
+
+
+
+
+
+
+
