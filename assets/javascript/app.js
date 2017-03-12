@@ -6,7 +6,8 @@ $(document).ready(function(){
 	var $question = $('#question');
 	var $timer = $('#timer');
 	var $reportCard = $("#reportCard");
-	var $results	= $("#results");
+	var $results = $("#results");
+	var $choiceResult = $('#choiceResult'); 
 
 	var questionList = {}; // use opentdb api to populate with history questions, see getQuestions()
 
@@ -56,15 +57,27 @@ $(document).ready(function(){
 		var correctAnswer = questionList[ game.results.length ].correct_answer;
 		var playerAnswer= $(this).text();
 
+		//stop counting down
+		game.clearTimer();
+
+		//show choice result
 		if(playerAnswer === correctAnswer){
 			console.log("Correct");
 			game.results.push(true);
-			nextQuestion();
+			$choiceResult.text("Correct!").addClass("correctChoice");
 		}else{
 			console.log("Incorrect");
 			game.results.push(false);
-			nextQuestion();
+			$choiceResult.text("Incorrect.  ( Answer: " + correctAnswer + ")")
+			.addClass("incorrectChoice");
 		}
+
+		$choiceResult.fadeIn(200);
+
+		//2 second timeout
+		setTimeout(function(){
+			nextQuestion();
+		},3000)
 	});
 
 	//player clicks retry button on the results screen
@@ -98,8 +111,12 @@ $(document).ready(function(){
 			reportCard();
 		}
 
-		//hide
+		//reset card
 		$card.hide();
+		$choiceResult.removeClass();
+		$choiceResult.empty();
+		$choiceResult.hide();
+		
 
 		if(game.results.length < 10){
 			var answerList = [];
