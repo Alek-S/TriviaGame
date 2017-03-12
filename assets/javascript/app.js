@@ -68,13 +68,12 @@ $(document).ready(function(){
 		}else{
 			console.log("Incorrect");
 			game.results.push(false);
-			$choiceResult.text("Incorrect.  ( Answer: " + correctAnswer + ")")
-			.addClass("incorrectChoice");
+			$choiceResult.text("Incorrect.  ( Answer: " + correctAnswer + ")").addClass("incorrectChoice");
 		}
 
 		$choiceResult.fadeIn(200);
 
-		//2 second timeout
+		//3 second timeout
 		setTimeout(function(){
 			nextQuestion();
 		},3000)
@@ -172,7 +171,16 @@ $(document).ready(function(){
 			console.log('times up'); //out of time
 			game.clearTimer();
 			game.results.push(false);
-			nextQuestion();
+			
+			$choiceResult.text("Times Up.  ( Answer: " + questionList[ game.results.length - 1].correct_answer + ")")
+			.addClass("incorrectChoice");;
+			
+			$choiceResult.fadeIn(200);
+
+			//3 second timeout
+			setTimeout(function(){
+				nextQuestion();
+			},3000)
 		}
 	}
 
