@@ -10,8 +10,9 @@
 
 /*standard html elements*/
 html { 
-  background: url('../images/background.jpg') no-repeat center center fixed; 
-  background-size: cover;
+	/*public domain background image from -- https://pixabay.com/p-1220056/?no_redirect*/
+	background: url('../images/background.jpg') no-repeat center center fixed; 
+	background-size: cover;
 }
 p{
 	line-height: 150%;

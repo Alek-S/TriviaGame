@@ -95,6 +95,7 @@ $(document).ready(function(){
 		var url = 'https://opentdb.com/api.php?amount=10&category=23&difficulty=easy&type=multiple'
 		console.log('API URL Request:', url)
 		
+		//after you get questions, run the callback function
 		$.ajax({
 			url: url,
 			method: 'GET'
@@ -172,6 +173,7 @@ $(document).ready(function(){
 			game.clearTimer();
 			game.results.push(false);
 			
+			//show timeout and answer
 			$choiceResult.text("Times Up.  ( Answer: " + questionList[ game.results.length - 1].correct_answer + ")")
 			.addClass("incorrectChoice");;
 			
@@ -184,7 +186,7 @@ $(document).ready(function(){
 		}
 	}
 
-	function reportCard(){
+	function reportCard(){ //create final result screen
 		game.clearTimer();
 		$card.hide();
 		$timer.hide();
@@ -192,6 +194,7 @@ $(document).ready(function(){
 		var correct = 0;
 		var $total = $("<div>").addClass('total')
 
+		//for each question...
 		for(var i = 0; i < game.results.length; i++){
 			var $questionDiv = $("<div>").addClass('q' + (i+1)).addClass('questionResult');
 
