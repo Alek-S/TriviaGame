@@ -4,6 +4,8 @@ Recreate the nostalgic childhood stress of a timed multiple choice examination. 
 
 When the game begins, you will be given ten multiple choice questions. Each question will have a time limit within which an answer must be submitted. When the test has been completed, your results will be presented.
 
+#### Try It Now: [Page Link](https://alek-s.github.io/TriviaGame/)
+
 #### Tools of the Trade
 * jQuery
 * XHR / Ajax request (opentdb.com)
@@ -13,7 +15,6 @@ When the game begins, you will be given ten multiple choice questions. Each ques
 
 ![Demo](./assets/screenshots/demo.gif)
 
-#### Try It Now: [Page Link](https://alek-s.github.io/TriviaGame/)
 ---
 
 ## Correct Answer
