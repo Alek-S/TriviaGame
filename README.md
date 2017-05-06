@@ -4,6 +4,13 @@ Recreate the nostalgic childhood stress of a timed multiple choice examination. 
 
 When the game begins, you will be given ten multiple choice questions. Each question will have a time limit within which an answer must be submitted. When the test has been completed, your results will be presented.
 
+#### Tools of the Trade
+* jQuery
+* XHR / Ajax request (opentdb.com)
+* Timers (setTimeout(), setInterval())
+* Custom CSS (pseudo-classes, transitions)
+* Google Fonts 
+
 ![Demo](./assets/screenshots/demo.gif)
 
 #### Try It Now: [Page Link](https://alek-s.github.io/TriviaGame/)
@@ -21,10 +28,3 @@ If answered incorrectly, or time runs out, notification within game card showing
 ## Report Card
 After ten questions, present the cumalative results and percent answered correctly.
 ![Report Card](./assets/screenshots/report.png)
-
-### Tools of the Trade
-* jQuery
-* XHR / Ajax request (opentdb.com)
-* Timers (setTimeout(), setInterval())
-* Custom CSS (pseudo-classes, transitions)
-* Google Fonts 
